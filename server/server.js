@@ -76,14 +76,27 @@ io.on('connection', (socket) => {
   // });
   //nEmail is the  data we catch from the event emitted from the client and createEmail is the event name
 
-  socket.emit('newMessage',{
-    from: 'Angelos',
-    text: 'Hello there',
-    createdAt: 123123
-  })
+  // socket.emit('newMessage',{
+  //   from: 'Angelos',
+  //   text: 'Hello there',
+  //   createdAt: 123123
+  // })
 
   socket.on('createMessage', (message) => {
     console.log('createMessage: ',message);
+    //io.emit is similar to socket.emit wih the difference that it will boradcast/emit the messgae to every browser Connected
+    //to this servers
+    io.emit('newMessage',{
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
+    //Now if you comment our in index.js  the createMessage emit and in server.js  socket.emit newMessage
+    //then duplicate tab in brwser which will now show 2 clients/browsers connected to the server
+    //and then in console in one of them type socket.emit('createMessage',{from: 'Angel', text: 'This should work'});
+    //them this is picked up by the server and then this uses io.emit newMessage to update all browsers
+    
+
   });
 
   //identical to the index.html event, below we detect when the specific browser disconnected

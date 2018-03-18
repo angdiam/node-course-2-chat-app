@@ -10,10 +10,10 @@ socket.on('connect', function ()  {
   //Chrome Deeloper Tools in Console allow you to type even the exact same line above to create an event
   //emitter on the spot which will then be caught by the server. This helps with debugging
 
-  socket.emit('createMessage',{
-    from: 'Jennifer',
-    text: 'Hello everyone. This is Jennifer'
-  })
+  // socket.emit('createMessage',{
+  //   from: 'Jennifer',
+  //   text: 'Hello everyone. This is Jennifer'
+  // })
 
 
 

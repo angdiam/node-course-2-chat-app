@@ -11,7 +11,8 @@
     external files. Below we are loadign the js socket.io library to the browser so that now
     that we have access to it we can create a socket to communicaticate with the server-->
     <script src="/socket.io/socket.io.js">  </script>
-    <script>
+    <script src="/js/index.js">
+      /*
       var socket = io();   //here we can write js and we now  create a socket ny calling io() and we store it at socket
       //Now in the chrome browser developer tools in Network you can see the different events from the browser to the servers
       //back to server.js
@@ -26,8 +27,13 @@
       socket.on('disconnect',() => {
         console.log('Disconnected from server');
       });
-
+      */
     </script>
+    <!--The code above is moved to a separate file and also the arrow function will be replaced by normal functions so this can run
+    on all browsers besides Chrome that for sure will run ES6 Create the folder js-->
+
+
+
 
   </body>
 </html>

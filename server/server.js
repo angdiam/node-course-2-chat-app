@@ -59,11 +59,40 @@ app.use(express.static(publicPath)); //now if we $node server/server.js then on 
 io.on('connection', (socket) => {
   console.log('New user connected');
 
+  //AFTER CUSTOM EVENT LISTENER IN index.js
+  //We match the same name newEmail that we used in listener in index.js, then we either pass no data
+  //or we pass a number,bool or more commonly an object
+  // socket.emit('newEmail',{
+  //   from: 'elena@example.com',
+  //   text: 'Hey Angelos. Whats Up',
+  //   createAt: 123
+  // });
+  //now if you go to the index.js listener in the function callback the first argument will be the data, the object above
+  //catch it by naming it email
+
+  //Time now for creatig an event listener in the server to listen from the client. You should not use io.on
+  // socket.on('createEmail', (nEmail) => {
+  //   console.log('createEmailinServer: ',nEmail);
+  // });
+  //nEmail is the  data we catch from the event emitted from the client and createEmail is the event name
+
+  socket.emit('newMessage',{
+    from: 'Angelos',
+    text: 'Hello there',
+    createdAt: 123123
+  })
+
+  socket.on('createMessage', (message) => {
+    console.log('createMessage: ',message);
+  });
+
   //identical to the index.html event, below we detect when the specific browser disconnected
   socket.on('disconnect', () => {
     console.log('User was disconnected');
   });
-  //git commit now
+  //git commit now   git status     git commit -am 'Add connect and disonnect event handlers'  git push
+  //no need to push to heroku just yet
+
 });
 /*Socket.io is persistent technology meanign that both server and client will try to keep the connection up
 if the client is closed then there is no connection fo rthe server to keep

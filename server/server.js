@@ -82,20 +82,47 @@ io.on('connection', (socket) => {
   //   createdAt: 123123
   // })
 
+  //Sending a message only to the user that just joined
+  socket.emit('newMessage',{
+    from: 'Admin',
+    text: 'Welcome to the chatApp',
+    createdAt: new Date().getTime()
+  });
+
+  //sending a message to all users except the user that just joined
+  socket.broadcast.emit('newMessage',{
+    from: 'Admin',
+    text: 'New user joined',
+    createdAt: new Date().getTime()
+  });
+
+
   socket.on('createMessage', (message) => {
     console.log('createMessage: ',message);
     //io.emit is similar to socket.emit wih the difference that it will boradcast/emit the messgae to every browser Connected
     //to this servers
-    io.emit('newMessage',{
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    });
+    //Emitting events to every connected client
+    // io.emit('newMessage',{
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // });
     //Now if you comment our in index.js  the createMessage emit and in server.js  socket.emit newMessage
     //then duplicate tab in brwser which will now show 2 clients/browsers connected to the server
     //and then in console in one of them type socket.emit('createMessage',{from: 'Angel', text: 'This should work'});
     //them this is picked up by the server and then this uses io.emit newMessage to update all browsers
-    
+    //git status   git commit -am 'Emit newMessage to createMessage' git push   git push heroku master
+    //heroku open to open the app in the default browser.  Now type the same socket.emit('createMessage',{from: 'Angel', text: 'This should work'});
+    //in the console and see this in both Chrome and Safari browsers connected t heroku  https://lit-escarpment-19280.herokuapp.com
+
+    //Broadcasting events to select clients
+    //socket.broadcast.emit is similat to socket.emit or io.emit with the difference that everybody besides this socket will receive the event
+    // socket.broadcast.emit('newMessage',{
+    //   from: message.from,
+    //   text: message.text,
+    //   createedAt: new Date().getTime()
+    // });
+
 
   });
 

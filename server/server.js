@@ -12,6 +12,8 @@ const port = process.env.PORT || 3000;  //for HEROKU
 //in package.json scripts add start  node server/server.js
 //also add engines to tell heroku which version of Node to use
 
+const {generateMessage} = require("./utils/message");
+
 var app = express();
 
 // app.use(express.static(publicPath)); //now if we $node server/server.js then on the browser localhost:3000 we see the index.html
@@ -83,21 +85,22 @@ io.on('connection', (socket) => {
   // })
 
   //Sending a message only to the user that just joined
-  socket.emit('newMessage',{
-    from: 'Admin',
-    text: 'Welcome to the chatApp',
-    createdAt: new Date().getTime()
-  });
+  // socket.emit('newMessage',{
+  //   from: 'Admin',
+  //   text: 'Welcome to the chatApp',
+  //   createdAt: new Date().getTime()
+  // });
+  socket.emit('newMessage',generateMessage('Admin','Welcome to the chatApp'));
 
   //sending a message to all users except the user that just joined
-  socket.broadcast.emit('newMessage',{
-    from: 'Admin',
-    text: 'New user joined',
-    createdAt: new Date().getTime()
-  });
+  // socket.broadcast.emit('newMessage',{
+  //   from: 'Admin',
+  //   text: 'New user joined',
+  //   createdAt: new Date().getTime()
+  // });
+  socket.broadcast.emit('newMessage',generateMessage('Admin','New user joined'));
 
-
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message,callback) => {
     console.log('createMessage: ',message);
     //io.emit is similar to socket.emit wih the difference that it will boradcast/emit the messgae to every browser Connected
     //to this servers
@@ -107,6 +110,13 @@ io.on('connection', (socket) => {
     //   text: message.text,
     //   createdAt: new Date().getTime()
     // });
+
+    // callback();  //this callback triggers the function that we inserted at the end of the socket.emit('createMessage')
+    //in the client and we can trasfer data through this way. This is our means to send baxck to the client feedback about what was received
+    //the brackets can have nothing or string or an object
+    callback('All well from the server');
+    
+    io.emit('newMessage',generateMessage(message.from,message.text));
     //Now if you comment our in index.js  the createMessage emit and in server.js  socket.emit newMessage
     //then duplicate tab in brwser which will now show 2 clients/browsers connected to the server
     //and then in console in one of them type socket.emit('createMessage',{from: 'Angel', text: 'This should work'});

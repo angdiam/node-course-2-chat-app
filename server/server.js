@@ -19,22 +19,16 @@ var app = express();
 // app.use(express.static(publicPath)); //now if we $node server/server.js then on the browser localhost:3000 we see the index.html
 //create .gitignore and place node_modules/
 
-//creare a new repository in github.com
-//$git status
-//$git add .
-//$gir commit -m 'Init commit'
-//now copy to terminal the 2 lines given in github.com
-/*
-git remote add origin https://github.com/angdiam/node-course-2-chat-app.git
-git push -u origin master
-Now at github.com you shpuld be able to see the files you created*/
-//$heroku create     to create the application
+//creare a new repository in github.com //$git status //$git add . //$git commit -m 'Init commit'   //now copy to terminal the 2 lines given in github.com
+/* git remote add origin https://github.com/angdiam/node-course-2-chat-app.git  git push -u origin master  Now at github.com you shpuld be able to see the files you created*/
+//$heroku create  to create the application without having to visit the heroku website
 //$git push heroku master    to deploy the app to heroku
-//In safari type https://lit-escarpment-19280.herokuapp.com/   that was shown in terminal when heroku finished
-//this is our app
+//In safari type https://lit-escarpment-19280.herokuapp.com/   that was shown in terminal when heroku finished  //this is our app
 
 //$npm i socket.io@1.4.8 --save   socket.io is s library both for the fornt end and the server that permits
 //to install essily websockets
+
+
 
 //WORKING WITH SOCKET.IO
 const http = require('http');  //node module
@@ -115,7 +109,7 @@ io.on('connection', (socket) => {
     //in the client and we can trasfer data through this way. This is our means to send baxck to the client feedback about what was received
     //the brackets can have nothing or string or an object
     callback('All well from the server');
-    
+
     io.emit('newMessage',generateMessage(message.from,message.text));
     //Now if you comment our in index.js  the createMessage emit and in server.js  socket.emit newMessage
     //then duplicate tab in brwser which will now show 2 clients/browsers connected to the server
